@@ -1,6 +1,9 @@
 ﻿
 using InterviewTracker.DataAccess.Data;
 using InterviewTracker.DataAccess.Interface;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 using DO = InterviewTracker.DataObject;
 
 namespace InterviewTracker.DataAccess
@@ -15,8 +18,13 @@ namespace InterviewTracker.DataAccess
 
         public List<DO::Company> GetCompanies()
         {
-            List<DO::Company> list = new List<DO.Company>(); 
-            var _data = _interviewTrackerDBContext.Companies.ToList();
+            List<DO::Company> list = new List<DO.Company>();
+
+            var flag = new SqlParameter("pint_Flag", SqlDbType.Int).Value = 0;
+            var id = new SqlParameter("pint_Id", SqlDbType.Int).Value = -1;
+
+            var _data = _interviewTrackerDBContext.Companies.FromSqlRaw($"EXECUTE USP_Company_GetCompany {flag}, {id}").ToList();
+
             if (_data != null && _data.Count() > 0) {
                 foreach (var item in _data)
                 {
