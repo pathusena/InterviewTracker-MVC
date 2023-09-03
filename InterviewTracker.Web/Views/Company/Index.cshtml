@@ -1,0 +1,75 @@
+﻿@model InterviewTracker.DataObject.Company
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <h2>Companies</h2>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead class="bg-dark text-white">
+                <tr>
+                    <td>#</td>
+                    <td>Name</td>
+                    <td>Country</td>
+                    <td>Apply Date</td>
+                    <td>Phone</td>
+                    <td>Description</td>
+                    <td>Remarks</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody id="tblCompanyBody">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div id="divEditCompany" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Company</h5>
+                <button type="button" class="btn close btnEditCompanyClose" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    @Html.Label("Name")
+                    @Html.TextBox("txtName", null, new { id="txtName", @class="form-control mt-2", placeholder="Company Name"})
+                </div>
+                <div class="form-group mt-3">
+                    @Html.Label("Country")
+                    @Html.TextBox("txtCountry", null, new { id="txtCountry", @class="form-control mt-2", placeholder="Country"})
+                </div>
+                <div class="form-group mt-3">
+                    @Html.Label("Apply Date")
+                    @Html.TextBox("txtDate", null, new { id="txtDate", @class="form-control mt-2", placeholder="Country", type="date"})
+                </div>
+                <div class="form-group mt-3">
+                    @Html.Label("Phone")
+                    @Html.TextBox("txtPhone", null, new { id="txtPhone", @class="form-control mt-2", placeholder="Phone"})
+                </div>
+                <div class="form-group mt-3">
+                    @Html.Label("Description")
+                    @Html.TextArea("txtDescription", null, new { id="txtDescription", @class="form-control mt-2", placeholder="Description"})
+                </div>
+                <div class="form-group mt-3">
+                    @Html.Label("Remark")
+                    @Html.TextArea("txtRemark", null, new { id="txtRemark", @class="form-control mt-2", placeholder="Remark"})
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnEditCompanySave" class="btn btn-success">Save</button>
+                <button type="button" class="btn btn-danger btnEditCompanyClose" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/company.js" asp-append-version="true"></script>
+
+}

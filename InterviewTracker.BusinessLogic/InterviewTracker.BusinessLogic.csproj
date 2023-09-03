@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InterviewTracker.DataAccess\InterviewTracker.DataAccess.csproj" />
+    <ProjectReference Include="..\InterviewTracker.DataObject\InterviewTracker.DataObject.csproj" />
+  </ItemGroup>
+
+</Project>
