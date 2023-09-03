@@ -1,5 +1,6 @@
 ﻿using InterviewTracker.BusinessLogic.Interface;
 using Microsoft.AspNetCore.Mvc;
+using DO = InterviewTracker.DataObject;
 
 namespace InterviewTracker.Web.Controllers
 {
@@ -15,6 +16,12 @@ namespace InterviewTracker.Web.Controllers
         public JsonResult GetAllCompanies()
         {
             return Json(new { result = _companyBusinessLogic.GetAllCompanies() });
+        }
+
+        [HttpPost]
+        public JsonResult SaveCompany(DO::Company company)
+        {
+            return Json(new { result = _companyBusinessLogic.SaveCompany(company) });
         }
     }
 }

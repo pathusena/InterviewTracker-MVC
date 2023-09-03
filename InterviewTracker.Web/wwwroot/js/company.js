@@ -1,13 +1,13 @@
 ﻿var companyList = [];
-function getAllCustomers() {
-    do_getAllCustomers();
+function getAllCompanies() {
+    do_getAllCompanies();
 }
 
-function do_getAllCustomers() {
-    SentRequestGet(null, do_getAllCustomers_success, null, 'GetAllCompanies');
+function do_getAllCompanies() {
+    sendRequestGet(null, do_getAllCompanies_success, null, 'GetAllCompanies');
 }
 
-function do_getAllCustomers_success(result) {
+function do_getAllCompanies_success(result) {
     if (result.result != null) {
         companyList = result.result;
         drawCompanyTable(companyList);
@@ -15,6 +15,7 @@ function do_getAllCustomers_success(result) {
 }
 
 function drawCompanyTable(list) {
+    $('#tblCompanyBody').html('');
     list.forEach(function (company, index) {
         drawCompanyTableRow(company, index);
     });
@@ -35,6 +36,7 @@ function drawCompanyTableRow(obj, index) {
 }
 
 function editCompany(id) {
+    clearCompanyEditModal();
     if (companyList.length > 0) {
         var index = companyList.findIndex(x => x.id == id);
         if (index > -1) {
@@ -49,6 +51,7 @@ function editCompany(id) {
 }
 
 function showCompanyValues(obj) {
+    $('#hdnId').val(obj.id);
     $('#txtName').val(obj.name);
     $('#txtCountry').val(obj.country);
     $('#txtDate').val(obj.date.split('T')[0]);
@@ -58,10 +61,53 @@ function showCompanyValues(obj) {
 }
 
 $('.btnEditCompanyClose').on('click', function () {
+    clearCompanyEditModal();
     $('#divEditCompany').modal('hide');
 });
 
+$('#btnEditCompanySave').on('click', function () {
+    saveCompany();
+});
+
+function saveCompany() {
+    do_saveCompany(createCompanySaveObject());
+}
+
+function createCompanySaveObject() {
+    var obj = {};
+    obj.id = Number($('#hdnId').val());
+    obj.name = $('#txtName').val();
+    obj.date = $('#txtDate').val();
+    obj.country = $('#txtCountry').val();
+    obj.phone = $('#txtPhone').val();
+    obj.description = $('#txtDescription').val();
+    obj.remarks = $('#txtRemark').val();
+
+    return obj;
+}
+
+function do_saveCompany(obj) {
+    sendRequestPost(obj , do_saveCompany_sucess, null, 'SaveCompany');
+}
+
+function do_saveCompany_sucess(result) {
+    if (result.result != null) {
+        clearCompanyEditModal();
+        $('#divEditCompany').modal('hide');
+    }
+}
+
+function clearCompanyEditModal() {
+    $('#hdnId').val('');
+    $('#txtName').val('');
+    $('#txtDate').val('');
+    $('#txtCountry').val('');
+    $('#txtPhone').val('');
+    $('#txtDescription').val('');
+    $('#txtRemark').val('');
+}
+
 $(document).ready(function () {
-    getAllCustomers();
+    getAllCompanies();
 });
 

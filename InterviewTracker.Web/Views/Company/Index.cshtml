@@ -36,6 +36,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                @Html.TextBox("hdnId", null, new { id="hdnId", type="hidden"})
                 <div class="form-group">
                     @Html.Label("Name")
                     @Html.TextBox("txtName", null, new { id="txtName", @class="form-control mt-2", placeholder="Company Name"})
