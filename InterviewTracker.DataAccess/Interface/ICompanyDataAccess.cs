@@ -10,5 +10,6 @@ namespace InterviewTracker.DataAccess.Interface
     public interface ICompanyDataAccess
     {
         List<DO::Company> GetCompanies();
+        DO::Company SaveCompany(int flag, DO::Company company);
     }
 }

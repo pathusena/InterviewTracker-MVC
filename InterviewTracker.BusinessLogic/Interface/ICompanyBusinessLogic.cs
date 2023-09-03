@@ -10,5 +10,7 @@ namespace InterviewTracker.BusinessLogic.Interface
     public interface ICompanyBusinessLogic
     {
         List<DO::Company> GetAllCompanies();
+
+        DO::Company SaveCompany(DO::Company company);
     }
 }

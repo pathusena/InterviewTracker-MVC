@@ -22,5 +22,24 @@ namespace InterviewTracker.BusinessLogic
                 throw new Exception("Unable to get companies.");
             }
         }
+
+        public DO::Company SaveCompany(DO::Company company)
+        {
+            try
+            {
+                if (company.Id > 0)
+                {
+                    return _companyDataAccess.SaveCompany(1, company);
+                }
+                else {
+                    return _companyDataAccess.SaveCompany(0, company);
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Unable to save company.");
+            }
+        }
     }
 }
