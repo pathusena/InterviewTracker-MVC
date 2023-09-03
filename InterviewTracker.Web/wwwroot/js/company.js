@@ -4,16 +4,7 @@ function getAllCustomers() {
 }
 
 function do_getAllCustomers() {
-    $.ajax({
-        url: "/WebApi/GetAllCustomers",
-        type: "GET",
-        dataType: 'json',
-        data: null,
-        success: do_getAllCustomers_success,
-        error: function (request, status, error) {
-            //alert(request.responseText);
-        }
-    });
+    SentRequestGet(null, do_getAllCustomers_success, null, 'GetAllCompanies');
 }
 
 function do_getAllCustomers_success(result) {

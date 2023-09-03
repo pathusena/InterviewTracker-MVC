@@ -12,7 +12,7 @@ namespace InterviewTracker.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetAllCustomers()
+        public JsonResult GetAllCompanies()
         {
             return Json(new { result = _companyBusinessLogic.GetAllCompanies() });
         }
