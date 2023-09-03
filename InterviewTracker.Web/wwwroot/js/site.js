@@ -1,4 +1,15 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿var baseUrl = '/WebApi/';
 
-// Write your JavaScript code.
+function SentRequestGet(data, successMethod, handleResponse, url) {
+    $.ajax({
+        url: baseUrl + url,
+        type: "GET",
+        dataType: 'json',
+        data: data,
+        success: successMethod,
+        error: function (request, status, error) {
+            //alert(request.responseText);
+        }
+    });
+
+}
