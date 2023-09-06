@@ -6,16 +6,16 @@ namespace InterviewTracker.BusinessLogic
 {
     public class CompanyBusinessLogic : ICompanyBusinessLogic
     {
-        private readonly ICompanyDataAccess _companyDataAccess;
+        private readonly ICompanyRepository _companyRepository;
 
-        public CompanyBusinessLogic(ICompanyDataAccess companyDataAccess) { 
-            _companyDataAccess = companyDataAccess;
+        public CompanyBusinessLogic(ICompanyRepository companyRepository) { 
+            _companyRepository = companyRepository;
         }
 
         public List<DO::Company> GetAllCompanies() {
             try
             {
-                return _companyDataAccess.GetCompanies();
+                return _companyRepository.GetCompanies();
             }
             catch (Exception e)
             {
@@ -29,10 +29,10 @@ namespace InterviewTracker.BusinessLogic
             {
                 if (company.Id > 0)
                 {
-                    return _companyDataAccess.SaveCompany(1, company);
+                    return _companyRepository.SaveCompany(1, company);
                 }
                 else {
-                    return _companyDataAccess.SaveCompany(0, company);
+                    return _companyRepository.SaveCompany(0, company);
                 }
 
             }

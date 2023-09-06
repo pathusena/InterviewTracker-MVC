@@ -7,7 +7,7 @@ using DO = InterviewTracker.DataObject;
 
 namespace InterviewTracker.DataAccess.Interface
 {
-    public interface ICompanyDataAccess
+    public interface ICompanyRepository
     {
         List<DO::Company> GetCompanies();
         DO::Company SaveCompany(int flag, DO::Company company);
