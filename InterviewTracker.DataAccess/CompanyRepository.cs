@@ -9,11 +9,11 @@ using DO = InterviewTracker.DataObject;
 
 namespace InterviewTracker.DataAccess
 {
-    public class CompanyDataAcess : ICompanyDataAccess
+    public class CompanyRepository : ICompanyRepository
     {
         private readonly InterviewTrackerDBContext _interviewTrackerDBContext;
 
-        public CompanyDataAcess(InterviewTrackerDBContext interviewTrackerDBContext) { 
+        public CompanyRepository(InterviewTrackerDBContext interviewTrackerDBContext) { 
            _interviewTrackerDBContext = interviewTrackerDBContext;
         }
 
