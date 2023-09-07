@@ -12,9 +12,11 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddDbContext<InterviewTrackerDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
 
-// Register the services/business logucs
+// Register the services/business logics
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyBusinessLogic, CompanyBusinessLogic>();
+builder.Services.AddScoped<IInterviewRepository, InterviewRepository>();
+builder.Services.AddScoped<IInterviewBusinessLogic, InterviewBusinessLogic>();
 
 // Register the facades
 builder.Services.AddScoped<CompanyInterviewFacade>();
