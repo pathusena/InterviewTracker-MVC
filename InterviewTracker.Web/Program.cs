@@ -12,8 +12,12 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddDbContext<InterviewTrackerDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
 
+// Register the services/business logucs
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyBusinessLogic, CompanyBusinessLogic>();
+
+// Register the facades
+builder.Services.AddScoped<CompanyInterviewFacade>();
 
 
 var app = builder.Build();
