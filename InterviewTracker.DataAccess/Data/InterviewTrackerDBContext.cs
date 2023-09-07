@@ -17,12 +17,12 @@ namespace InterviewTracker.DataAccess.Data
         }
 
         public virtual DbSet<Company> Companies { get; set; } = null!;
+        public virtual DbSet<Interview> Interviews { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-
             }
         }
 
@@ -32,7 +32,7 @@ namespace InterviewTracker.DataAccess.Data
             {
                 entity.ToTable("Company");
 
-                entity.Property(e => e.Country).HasMaxLength(100);
+                entity.Property(e => e.Country).HasMaxLength(20);
 
                 entity.Property(e => e.Date)
                     .HasColumnType("datetime")
@@ -46,6 +46,29 @@ namespace InterviewTracker.DataAccess.Data
 
                 entity.Property(e => e.Remarks).HasMaxLength(100);
             });
+
+            modelBuilder.Entity<Interview>(entity =>
+            {
+                entity.ToTable("Interview");
+
+                entity.Property(e => e.Date).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Remark)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Company)
+                    .WithMany(p => p.Interviews)
+                    .HasForeignKey(d => d.CompanyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Interview_Company");
+            });
+
+            modelBuilder.HasSequence("Company_Id_Sequence").StartsAt(2);
 
             OnModelCreatingPartial(modelBuilder);
         }
