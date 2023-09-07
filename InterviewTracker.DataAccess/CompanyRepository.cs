@@ -21,9 +21,6 @@ namespace InterviewTracker.DataAccess
         {
             List<CompanyDto> list = new List<CompanyDto>();
 
-            var flag = new SqlParameter("pint_Flag", SqlDbType.Int).Value = 0;
-            var id = new SqlParameter("pint_Id", SqlDbType.Int).Value = -1;
-
             List<SqlParameter> parms = new List<SqlParameter>
             {
                 new SqlParameter { ParameterName = "@pint_Flag", Value = 0 },
