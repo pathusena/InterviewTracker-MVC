@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 using InterviewTracker.DataObject;
 using InterviewTracker.DataAccess.Data;
 
-namespace InterviewTracker.BusinessLogic
+namespace InterviewTracker.BusinessLogic.Facades
 {
     public class CompanyInterviewFacade
     {
         private readonly ICompanyBusinessLogic _companyBusinessLogic;
         private readonly IInterviewBusinessLogic _interviewBusinessLogic;
 
-        public CompanyInterviewFacade(ICompanyBusinessLogic companyBusinessLogic, IInterviewBusinessLogic interviewBusinessLogic) {
+        public CompanyInterviewFacade(ICompanyBusinessLogic companyBusinessLogic, IInterviewBusinessLogic interviewBusinessLogic)
+        {
             _companyBusinessLogic = companyBusinessLogic;
             _interviewBusinessLogic = interviewBusinessLogic;
         }
