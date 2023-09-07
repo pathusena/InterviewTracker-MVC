@@ -1,4 +1,4 @@
-﻿using InterviewTracker.BusinessLogic;
+﻿using InterviewTracker.BusinessLogic.Facades;
 using InterviewTracker.DataObject;
 using Microsoft.AspNetCore.Mvc;
 
