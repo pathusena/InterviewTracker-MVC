@@ -1,6 +1,6 @@
 ﻿using InterviewTracker.BusinessLogic.Interface;
 using InterviewTracker.DataAccess.Interface;
-using DO = InterviewTracker.DataObject;
+using InterviewTracker.DataObject;
 
 namespace InterviewTracker.BusinessLogic
 {
@@ -12,7 +12,7 @@ namespace InterviewTracker.BusinessLogic
             _companyRepository = companyRepository;
         }
 
-        public List<DO::Company> GetAllCompanies() {
+        public List<CompanyDto> GetAllCompanies() {
             try
             {
                 return _companyRepository.GetCompanies();
@@ -23,7 +23,7 @@ namespace InterviewTracker.BusinessLogic
             }
         }
 
-        public DO::Company SaveCompany(DO::Company company)
+        public CompanyDto SaveCompany(CompanyDto company)
         {
             try
             {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DO = InterviewTracker.DataObject;
+using InterviewTracker.DataObject;
 
 namespace InterviewTracker.BusinessLogic
 {
@@ -18,12 +18,12 @@ namespace InterviewTracker.BusinessLogic
             //_interviewBusinessLogic = interviewBusinessLogic;
         }
 
-        public List<DO::Company> GetAllCompanies()
+        public List<CompanyDto> GetAllCompanies()
         {
             return _companyBusinessLogic.GetAllCompanies();
         }
 
-        public DO::Company SaveCompany(DO::Company company)
+        public CompanyDto SaveCompany(CompanyDto company)
         {
             return _companyBusinessLogic.SaveCompany(company);
         }

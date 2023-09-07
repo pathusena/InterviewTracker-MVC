@@ -1,6 +1,6 @@
 ﻿using InterviewTracker.BusinessLogic;
+using InterviewTracker.DataObject;
 using Microsoft.AspNetCore.Mvc;
-using DO = InterviewTracker.DataObject;
 
 namespace InterviewTracker.Web.Controllers
 {
@@ -19,7 +19,7 @@ namespace InterviewTracker.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveCompany(DO::Company company)
+        public JsonResult SaveCompany(CompanyDto company)
         {
             return Json(new { result = _companyInterviewFacade.SaveCompany(company) });
         }

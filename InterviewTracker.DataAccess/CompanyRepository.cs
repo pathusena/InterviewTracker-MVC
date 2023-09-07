@@ -1,11 +1,11 @@
 ﻿
 using InterviewTracker.DataAccess.Data;
+using InterviewTracker.DataAccess.DTO;
 using InterviewTracker.DataAccess.Interface;
 using InterviewTracker.DataObject;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using DO = InterviewTracker.DataObject;
 
 namespace InterviewTracker.DataAccess
 {
@@ -17,9 +17,9 @@ namespace InterviewTracker.DataAccess
            _interviewTrackerDBContext = interviewTrackerDBContext;
         }
 
-        public List<DO::Company> GetCompanies()
+        public List<CompanyDto> GetCompanies()
         {
-            List<DO::Company> list = new List<DO.Company>();
+            List<CompanyDto> list = new List<CompanyDto>();
 
             var flag = new SqlParameter("pint_Flag", SqlDbType.Int).Value = 0;
             var id = new SqlParameter("pint_Id", SqlDbType.Int).Value = -1;
@@ -35,22 +35,14 @@ namespace InterviewTracker.DataAccess
             if (_data != null && _data.Count() > 0) {
                 foreach (var item in _data)
                 {
-                    list.Add(new DO.Company() { 
-                        Id = item.Id,
-                        Name = item.Name,
-                        Country = item.Country,
-                        Description = item.Description,
-                        Phone = item.Phone,
-                        Remarks = item.Remarks,
-                        Date = item.Date
-                    });
+                    list.Add(CompanyDtoConverter.ToDto(item));
                 }
             }
 
             return list;
         }
 
-        public DO::Company SaveCompany(int flag, DO::Company company)
+        public CompanyDto SaveCompany(int flag, CompanyDto company)
         {
             List<SqlParameter> parms = new List<SqlParameter>
             {   
