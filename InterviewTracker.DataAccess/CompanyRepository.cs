@@ -44,7 +44,7 @@ namespace InterviewTracker.DataAccess
             List<SqlParameter> parms = new List<SqlParameter>
             {   
                 new SqlParameter { ParameterName = "@pint_Flag", Value = flag },
-                new SqlParameter { ParameterName = "@pint_Id", Value = company.Id },
+                new SqlParameter { ParameterName = "@pint_Id", Value = company.Id, Direction = ParameterDirection.InputOutput },
                 new SqlParameter { ParameterName = "@pstr_Name", Value = company.Name },
                 new SqlParameter { ParameterName = "@pdte_Date", Value = company.Date },
                 new SqlParameter { ParameterName = "@pstr_Country", Value = company.Country },
@@ -53,8 +53,8 @@ namespace InterviewTracker.DataAccess
                 new SqlParameter { ParameterName = "@pstr_Remarks", Value = company.Remarks }
             };
 
-            _interviewTrackerDBContext.Database.ExecuteSqlRaw("EXECUTE USP_Company_SaveCompany @pint_Flag, @pint_Id, @pstr_Name, @pdte_Date, @pstr_Country, @pstr_Phone, @pstr_Description, @pstr_Remarks", parms.ToArray());
-
+            _interviewTrackerDBContext.Database.ExecuteSqlRaw("EXECUTE USP_Company_SaveCompany @pint_Flag, @pint_Id OUTPUT, @pstr_Name, @pdte_Date, @pstr_Country, @pstr_Phone, @pstr_Description, @pstr_Remarks", parms.ToArray());
+            company.Id = (int)parms[1].Value;
             return company;
         }
     }

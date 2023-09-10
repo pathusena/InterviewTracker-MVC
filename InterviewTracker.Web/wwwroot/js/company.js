@@ -22,7 +22,7 @@ function drawCompanyTable(list) {
 }
 
 function drawCompanyTableRow(obj, index) {
-    let line = `<tr>
+    let line = `<tr id="tr_${obj.id}">
                     <td> ${index + 1}</td>
                     <td> ${obj.name}</td>
                     <td>${obj.country}</td>
@@ -94,17 +94,33 @@ function do_saveCompany_sucess(result) {
     if (result.result != null) {
         clearCompanyEditModal();
         $('#divEditCompany').modal('hide');
+        var index = companyList.findIndex(x => x.id == result.result.id);
+        if (index > -1) {
+            companyList[index] = result.result;
+        } else {
+            companyList.push(result.result);
+        }
+        drawCompanyTable(companyList);
     }
 }
 
 function clearCompanyEditModal() {
-    $('#hdnId').val('');
+    $('#hdnId').val('-1');
     $('#txtName').val('');
     $('#txtDate').val('');
     $('#txtCountry').val('');
     $('#txtPhone').val('');
     $('#txtDescription').val('');
     $('#txtRemark').val('');
+}
+
+$('#btnAddCompany').on('click', function () {
+    addCompany();
+});
+
+function addCompany() {
+    clearCompanyEditModal();
+    $('#divEditCompany').modal('show');
 }
 
 $(document).ready(function () {
