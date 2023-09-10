@@ -120,7 +120,7 @@ function addCompany() {
 }
 
 function deleteCompany(id) {
-    do_deleteCompany(id);
+    confirmationMessage('Are you sure!', 'Are you sure you want to delete this company?', `do_deleteCompany(${id})`);
 }
 
 function do_deleteCompany(id) {
