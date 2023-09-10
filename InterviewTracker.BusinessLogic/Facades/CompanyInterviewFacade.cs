@@ -34,5 +34,10 @@ namespace InterviewTracker.BusinessLogic.Facades
         {
             return _interviewBusinessLogic.GetInterviews(companyId);
         }
+
+        public int DeleteCompany(int id)
+        {
+            return _companyBusinessLogic.DeleteCompany(id);
+        }
     }
 }

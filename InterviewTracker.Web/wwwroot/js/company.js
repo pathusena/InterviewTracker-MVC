@@ -30,7 +30,7 @@ function drawCompanyTableRow(obj, index) {
                     <td>${obj.phone}</td>
                     <td>${obj.description}</td>
                     <td>${obj.remarks}</td>
-                    <td><a class="btn btn-success" onclick="editCompany(${obj.id})">Edit</a><a class="btn btn-info mx-2">View Interviews</a></td>
+                    <td><a class="btn btn-success" onclick="editCompany(${obj.id});">Edit</a><a class="btn btn-info mx-2">View Interviews</a><a class="btn btn-danger" onclick="deleteCompany(${obj.id});">Delete</a></td>
                 </tr>`;
     $('#tblCompanyBody').append(line);
 }
@@ -42,11 +42,7 @@ function editCompany(id) {
         if (index > -1) {
             showCompanyValues(companyList[index]);
             $('#divEditCompany').modal('show');
-        } else {
-
         }
-    } else {
-
     }
 }
 
@@ -121,6 +117,24 @@ $('#btnAddCompany').on('click', function () {
 function addCompany() {
     clearCompanyEditModal();
     $('#divEditCompany').modal('show');
+}
+
+function deleteCompany(id) {
+    do_deleteCompany(id);
+}
+
+function do_deleteCompany(id) {
+    sendRequestGet({id: id}, do_deleteCompany_sucess, null, 'DeleteCompany');
+}
+
+function do_deleteCompany_sucess(result) {
+    if (result.result != null) {
+        var index = companyList.findIndex(x => x.id == result.result);
+        if (index > -1) {
+            companyList.splice(index, 1);
+            drawCompanyTable(companyList);
+        }
+    }
 }
 
 $(document).ready(function () {

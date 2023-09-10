@@ -57,5 +57,17 @@ namespace InterviewTracker.DataAccess
             company.Id = (int)parms[1].Value;
             return company;
         }
+
+        public int DeleteCompany(int flag, int id)
+        {
+            List<SqlParameter> parms = new List<SqlParameter>
+            {
+                new SqlParameter { ParameterName = "@pint_Flag", Value = flag },
+                new SqlParameter { ParameterName = "@pint_Id", Value = id },
+            };
+
+            _interviewTrackerDBContext.Database.ExecuteSqlRaw("EXECUTE USP_Company_DeleteCompany @pint_Flag, @pint_Id", parms.ToArray());
+            return id;
+        }
     }
 }
