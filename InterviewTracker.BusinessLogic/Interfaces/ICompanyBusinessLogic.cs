@@ -12,5 +12,7 @@ namespace InterviewTracker.BusinessLogic.Interface
         List<CompanyDto> GetAllCompanies();
 
         CompanyDto SaveCompany(CompanyDto company);
+
+        int DeleteCompany(int id);
     }
 }

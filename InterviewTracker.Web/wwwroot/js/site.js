@@ -26,3 +26,17 @@ function sendRequestPost(data, successMethod, handleResponse, url) {
         }
     });
 }
+
+function confirmationMessage(title, message, yesMethod) {
+    $('#divConfirmationModal .modal-title').text(title);
+    $('#divConfirmationModal .modal-text').text(message);
+    $('#divConfirmationModal_yes').on('click', function () {
+        eval(yesMethod);
+        $('#divConfirmationModal').modal('hide');
+    });
+    $('#divConfirmationModal').modal('show');
+}
+
+$('#divConfirmationModal .confirmation-no').on('click', function () {
+    $('#divConfirmationModal').modal('hide');
+});

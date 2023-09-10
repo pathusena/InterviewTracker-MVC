@@ -29,5 +29,11 @@ namespace InterviewTracker.Web.Controllers
         {
             return Json(new { result = _companyInterviewFacade.GetInterviews(companyId) });
         }
+
+        [HttpGet]
+        public JsonResult DeleteCompany(int id)
+        {
+            return Json(new { result = _companyInterviewFacade.DeleteCompany(id) });
+        }
     }
 }

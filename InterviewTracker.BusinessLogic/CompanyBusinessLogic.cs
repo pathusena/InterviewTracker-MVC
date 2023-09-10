@@ -1,4 +1,5 @@
 ﻿using InterviewTracker.BusinessLogic.Interface;
+using InterviewTracker.DataAccess.Data;
 using InterviewTracker.DataAccess.Interface;
 using InterviewTracker.DataObject;
 
@@ -39,6 +40,19 @@ namespace InterviewTracker.BusinessLogic
             catch (Exception e)
             {
                 throw new Exception("Unable to save company.");
+            }
+        }
+
+        public int DeleteCompany(int id)
+        {
+            try
+            {
+                return _companyRepository.DeleteCompany(0, id);
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Unable to delete company.");
             }
         }
     }
