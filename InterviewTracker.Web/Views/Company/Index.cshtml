@@ -40,14 +40,17 @@
                 <div class="form-group">
                     @Html.Label("Name")
                     @Html.TextBox("txtName", null, new { id="txtName", @class="form-control mt-2", placeholder="Company Name"})
+                    <span class="error-message d-none" id="nameError">Please enter the company name</span>
                 </div>
                 <div class="form-group mt-3">
                     @Html.Label("Country")
                     @Html.TextBox("txtCountry", null, new { id="txtCountry", @class="form-control mt-2", placeholder="Country"})
+                    <span class="error-message d-none" id="countryError">Please enter the country of the company</span>
                 </div>
                 <div class="form-group mt-3">
                     @Html.Label("Apply Date")
                     @Html.TextBox("txtDate", null, new { id="txtDate", @class="form-control mt-2", placeholder="Country", type="date"})
+                    <span class="error-message d-none" id="dateError">Please enter job applying date</span>
                 </div>
                 <div class="form-group mt-3">
                     @Html.Label("Phone")

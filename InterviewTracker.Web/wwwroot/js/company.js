@@ -11,6 +11,8 @@ function do_getAllCompanies_success(result) {
     if (result.result != null) {
         companyList = result.result;
         drawCompanyTable(companyList);
+    } else {
+        alertMessage(false, 'Error getting companies!', true);
     }
 }
 
@@ -27,9 +29,9 @@ function drawCompanyTableRow(obj, index) {
                     <td> ${obj.name}</td>
                     <td>${obj.country}</td>
                     <td>${obj.date.split('T')[0]}</td>
-                    <td>${obj.phone}</td>
-                    <td>${obj.description}</td>
-                    <td>${obj.remarks}</td>
+                    <td>${obj.phone == null ? '' : obj.phone}</td>
+                    <td>${obj.description == null ? '' : obj.description}</td>
+                    <td>${obj.remarks == null ? '' : obj.remarks}</td>
                     <td><a class="btn btn-success" onclick="editCompany(${obj.id});">Edit</a><a class="btn btn-info mx-2">View Interviews</a><a class="btn btn-danger" onclick="deleteCompany(${obj.id});">Delete</a></td>
                 </tr>`;
     $('#tblCompanyBody').append(line);
@@ -66,7 +68,25 @@ $('#btnEditCompanySave').on('click', function () {
 });
 
 function saveCompany() {
-    do_saveCompany(createCompanySaveObject());
+    if (validateCompanyData()) {
+        do_saveCompany(createCompanySaveObject());
+    }
+}
+
+function validateCompanyData() {
+    $('.error-message').addClass('d-none');
+    var result = true;
+    if ($('#txtName').val().length == 0) {
+        $('#nameError').removeClass('d-none');
+        result = false;
+    } else if ($('#txtCountry').val().length == 0) {
+        $('#countryError').removeClass('d-none');
+        result = false;
+    } else if ($('#txtDate').val().length == 0) {
+        $('#dateError').removeClass('d-none');
+        result = false;
+    }
+    return result;
 }
 
 function createCompanySaveObject() {
@@ -97,6 +117,9 @@ function do_saveCompany_sucess(result) {
             companyList.push(result.result);
         }
         drawCompanyTable(companyList);
+        alertMessage(true, 'Company successfully Saved!', true);
+    } else {
+        alertMessage(false, 'Company save unsuccessful!', true);
     }
 }
 
@@ -134,6 +157,9 @@ function do_deleteCompany_sucess(result) {
             companyList.splice(index, 1);
             drawCompanyTable(companyList);
         }
+        alertMessage(true, 'Company successfully deleted!', true);
+    } else {
+        alertMessage(false, 'Company deletion unsuccessful!', true);
     }
 }
 

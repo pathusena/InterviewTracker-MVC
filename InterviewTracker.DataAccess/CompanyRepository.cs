@@ -48,9 +48,9 @@ namespace InterviewTracker.DataAccess
                 new SqlParameter { ParameterName = "@pstr_Name", Value = company.Name },
                 new SqlParameter { ParameterName = "@pdte_Date", Value = company.Date },
                 new SqlParameter { ParameterName = "@pstr_Country", Value = company.Country },
-                new SqlParameter { ParameterName = "@pstr_Phone", Value = company.Phone },
-                new SqlParameter { ParameterName = "@pstr_Description", Value = company.Description },
-                new SqlParameter { ParameterName = "@pstr_Remarks", Value = company.Remarks }
+                new SqlParameter { ParameterName = "@pstr_Phone", Value = (company.Phone == null ? DBNull.Value : company.Phone)},
+                new SqlParameter { ParameterName = "@pstr_Description", Value = (company.Description == null ? DBNull.Value : company.Description)},
+                new SqlParameter { ParameterName = "@pstr_Remarks", Value = (company.Remarks == null ? DBNull.Value : company.Remarks )}
             };
 
             _interviewTrackerDBContext.Database.ExecuteSqlRaw("EXECUTE USP_Company_SaveCompany @pint_Flag, @pint_Id OUTPUT, @pstr_Name, @pdte_Date, @pstr_Country, @pstr_Phone, @pstr_Description, @pstr_Remarks", parms.ToArray());

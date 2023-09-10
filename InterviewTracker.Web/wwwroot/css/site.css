@@ -16,3 +16,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.error-message {
+    color: red;
+    font-size: 12px;
+}
