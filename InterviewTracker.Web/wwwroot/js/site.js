@@ -40,3 +40,23 @@ function confirmationMessage(title, message, yesMethod) {
 $('#divConfirmationModal .confirmation-no').on('click', function () {
     $('#divConfirmationModal').modal('hide');
 });
+
+function alertMessage(isSuccess, message, dismiss) {
+    if (isSuccess) {
+        $('#divSuccessAlert').removeClass('d-none');
+        $('#divSuccessAlert').text(message);
+        if (dismiss) {
+            setTimeout(function () {
+                $('#divSuccessAlert').addClass('d-none');
+            }, 3000);
+        }
+    } else {
+        $('#divDangerAlert').removeClass('d-none');
+        $('#divDangerAlert').text(message);
+        if (dismiss) {
+            setTimeout(function () {
+                $('#divDangerAlert').addClass('d-none');
+            }, 3000);
+        }
+    }
+}
