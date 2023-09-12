@@ -8,7 +8,6 @@
         public string Country { get; set; } = null!;
         public string? Phone { get; set; }
         public string? Remarks { get; set; }
-
         public DateTime Date { get; set; }
     }
 }
