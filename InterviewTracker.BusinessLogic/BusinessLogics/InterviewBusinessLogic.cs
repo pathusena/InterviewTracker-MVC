@@ -1,4 +1,5 @@
 ﻿using InterviewTracker.BusinessLogic.Interface;
+using InterviewTracker.BusinessLogic.Interfaces;
 using InterviewTracker.DataAccess;
 using InterviewTracker.DataAccess.Interface;
 using InterviewTracker.DataObject;
@@ -13,9 +14,11 @@ namespace InterviewTracker.BusinessLogic
     public class InterviewBusinessLogic : IInterviewBusinessLogic
     {
         private readonly IInterviewRepository _interviewRepository;
+        private readonly ILoggerBusinessLogic _loggerBusinessLogic;
 
-        public InterviewBusinessLogic(IInterviewRepository interviewRepository) {
+        public InterviewBusinessLogic(IInterviewRepository interviewRepository, ILoggerBusinessLogic loggerBusinessLogic) {
             _interviewRepository = interviewRepository;
+            _loggerBusinessLogic = loggerBusinessLogic;
         }
 
         public List<InterviewDto> GetInterviews(int companyId) {
@@ -25,6 +28,7 @@ namespace InterviewTracker.BusinessLogic
             }
             catch (Exception e)
             {
+                _loggerBusinessLogic.LogError(e.Message);
                 throw new Exception("Unable to get interviews.");
             }
         }

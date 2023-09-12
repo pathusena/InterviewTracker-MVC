@@ -5,7 +5,9 @@ namespace InterviewTracker.Test
         [Fact]
         public void GetAllCompanies_ShouldReturn200Status()
         {
-
+            //Arrange
+            //Act
+            //Assert
         }
     }
 }
