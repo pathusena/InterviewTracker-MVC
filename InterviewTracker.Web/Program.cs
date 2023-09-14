@@ -19,6 +19,7 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyBusinessLogic, CompanyBusinessLogic>();
 builder.Services.AddScoped<IInterviewRepository, InterviewRepository>();
 builder.Services.AddScoped<IInterviewBusinessLogic, InterviewBusinessLogic>();
+builder.Services.AddScoped<ICompanyInterviewFacade, CompanyInterviewFacade>();
 
 // Register Logger for error/message logging
 builder.Services.AddSingleton<ILoggerBusinessLogic, LoggerBusinesssLogic>();
