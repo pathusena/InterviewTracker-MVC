@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using InterviewTracker.DataObject;
 using InterviewTracker.DataAccess.Data;
+using InterviewTracker.BusinessLogic.Interfaces;
 
 namespace InterviewTracker.BusinessLogic.Facades
 {
-    public class CompanyInterviewFacade
+    public class CompanyInterviewFacade : ICompanyInterviewFacade
     {
         private readonly ICompanyBusinessLogic _companyBusinessLogic;
         private readonly IInterviewBusinessLogic _interviewBusinessLogic;
@@ -22,7 +23,13 @@ namespace InterviewTracker.BusinessLogic.Facades
 
         public List<CompanyDto> GetAllCompanies()
         {
-            return _companyBusinessLogic.GetAllCompanies();
+            try
+            {
+                return _companyBusinessLogic.GetAllCompanies();
+            } catch (Exception)
+            {
+                throw;
+            }
         }
 
         public CompanyDto SaveCompany(CompanyDto company)
