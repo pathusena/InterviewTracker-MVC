@@ -26,7 +26,7 @@ namespace InterviewTracker.BusinessLogic.Facades
             try
             {
                 return _companyBusinessLogic.GetAllCompanies();
-            } catch (Exception)
+            } catch
             {
                 throw;
             }
@@ -34,7 +34,14 @@ namespace InterviewTracker.BusinessLogic.Facades
 
         public CompanyDto SaveCompany(CompanyDto company)
         {
-            return _companyBusinessLogic.SaveCompany(company);
+            try
+            {
+                return _companyBusinessLogic.SaveCompany(company);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public List<InterviewDto> GetInterviews(int companyId)

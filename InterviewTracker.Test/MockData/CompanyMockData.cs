@@ -40,5 +40,10 @@ namespace InterviewTracker.Test.MockData
                 },
             }; 
         }
+
+        public static List<CompanyDto> EmptyCompanies()
+        {
+            return new List<CompanyDto>();
+        }
     }
 }

@@ -7,8 +7,8 @@ function sendRequestGet(data, successMethod, handleResponse, url) {
         dataType: 'json',
         data: data,
         success: successMethod,
-        error: function (request, status, error) {
-            //alert(request.responseText);
+        error: function (xhr, textStatus, errorThrown) {
+            alertMessage(false, xhr.responseText, true);
         }
     });
 }
@@ -21,8 +21,8 @@ function sendRequestPost(data, successMethod, handleResponse, url) {
         dataType: 'json',
         data: data,
         success: successMethod,
-        error: function (request, status, error) {
-            //alert(request.responseText);
+        error: function (xhr, textStatus, errorThrown) {
+            alertMessage(false, xhr.responseText, true);
         }
     });
 }
