@@ -7,12 +7,14 @@ function do_getAllCompanies() {
     sendRequestGet(null, do_getAllCompanies_success, null, 'GetAllCompanies');
 }
 
-function do_getAllCompanies_success(result) {
-    if (result.result != null) {
-        companyList = result.result;
-        drawCompanyTable(companyList);
+function do_getAllCompanies_success(result, textstatus, xhr) {
+    if (xhr.status === 204) {
+        alertMessage(true, 'No companies found!', true);
     } else {
-        alertMessage(false, 'Error getting companies!', true);
+        if (result != null) {
+            companyList = result;
+            drawCompanyTable(companyList);
+        }
     }
 }
 
@@ -107,19 +109,17 @@ function do_saveCompany(obj) {
 }
 
 function do_saveCompany_sucess(result) {
-    if (result.result != null) {
+    if (result != null) {
         clearCompanyEditModal();
         $('#divEditCompany').modal('hide');
-        var index = companyList.findIndex(x => x.id == result.result.id);
+        var index = companyList.findIndex(x => x.id == result.id);
         if (index > -1) {
-            companyList[index] = result.result;
+            companyList[index] = result;
         } else {
-            companyList.push(result.result);
+            companyList.push(result);
         }
         drawCompanyTable(companyList);
         alertMessage(true, 'Company successfully Saved!', true);
-    } else {
-        alertMessage(false, 'Company save unsuccessful!', true);
     }
 }
 

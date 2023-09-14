@@ -21,14 +21,25 @@ namespace InterviewTracker.Test
             var result = sut.GetAllCompanies();
 
             //Assert
-            var objectResult = Assert.IsType<JsonResult>(result);
+            var objectResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
         }
 
+        [Fact]
         public void GetAllCompanies_ShouldReturn204Sttus() {
 
+            //Arrange
             var companyInterviewFacade = new Mock<ICompanyInterviewFacade>();
-            //companyInterviewFacade.Setup(x => x.GetAllCompanies()).Returns(CompanyMockData);
+            companyInterviewFacade.Setup(x => x.GetAllCompanies()).Returns(CompanyMockData.EmptyCompanies());
+            var sut = new WebApiController(companyInterviewFacade.Object);
+
+            //Act
+            var result = sut.GetAllCompanies();
+
+            //Assert
+            var objectResult = Assert.IsType<NoContentResult>(result);
+            Assert.Equal(StatusCodes.Status204NoContent, objectResult.StatusCode);
+
         }
     }
 }

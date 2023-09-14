@@ -1,6 +1,7 @@
 ﻿using InterviewTracker.BusinessLogic.Facades;
 using InterviewTracker.BusinessLogic.Interfaces;
 using InterviewTracker.DataObject;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InterviewTracker.Web.Controllers
@@ -14,42 +15,34 @@ namespace InterviewTracker.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetAllCompanies()
+        public IActionResult GetAllCompanies()
         {
-            JsonResult? result;
             try
             {
                 var data = _companyInterviewFacade.GetAllCompanies();
 
-                if (data == null)
+                if (data == null || data.Count == 0)
                 {
-                    result = new JsonResult(new { success = true, result = NoContent() })
-                    {
-                        StatusCode = StatusCodes.Status204NoContent
-                    };
-                    return result;
+                    return NoContent();
                 }
 
-                result = new JsonResult(new { success = true, result = _companyInterviewFacade.GetAllCompanies() })
-                {
-                    StatusCode = StatusCodes.Status200OK
-                };
-                return result;
+                return Ok(data);
 
-            } catch (Exception)
+            } catch
             {
-                result = new JsonResult(new { success = false, error = "Something went wrong" })
-                {
-                    StatusCode = StatusCodes.Status503ServiceUnavailable
-                };
-                return result;
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error getting companies!");
             }
         }
 
         [HttpPost]
-        public JsonResult SaveCompany(CompanyDto company)
+        public IActionResult SaveCompany(CompanyDto company)
         {
-            return Json(new { result = _companyInterviewFacade.SaveCompany(company) });
+            try {
+                var data = _companyInterviewFacade.SaveCompany(company);
+                return Ok(data);
+            } catch {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error saving company!");
+            }
         }
 
         [HttpGet]
