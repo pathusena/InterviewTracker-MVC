@@ -17,7 +17,7 @@ namespace InterviewTracker.DataAccess
            _interviewTrackerDBContext = interviewTrackerDBContext;
         }
 
-        public List<CompanyDto> GetCompanies()
+        public async Task<List<CompanyDto>> GetCompanies()
         {
             List<CompanyDto> list = new List<CompanyDto>();
 
@@ -27,7 +27,7 @@ namespace InterviewTracker.DataAccess
                 new SqlParameter { ParameterName = "@pint_Id", Value = -1 },
             };
 
-            var _data = _interviewTrackerDBContext.Companies.FromSqlRaw("EXECUTE USP_Company_GetCompany @pint_Flag, @pint_Id", parms.ToArray()).ToList();
+            var _data = await _interviewTrackerDBContext.Companies.FromSqlRaw("EXECUTE USP_Company_GetCompany @pint_Flag, @pint_Id", parms.ToArray()).ToListAsync();
 
             if (_data != null && _data.Count() > 0) {
                 foreach (var item in _data)
@@ -39,7 +39,7 @@ namespace InterviewTracker.DataAccess
             return list;
         }
 
-        public CompanyDto SaveCompany(int flag, CompanyDto company)
+        public async Task<CompanyDto> SaveCompany(int flag, CompanyDto company)
         {
             List<SqlParameter> parms = new List<SqlParameter>
             {   
@@ -53,12 +53,12 @@ namespace InterviewTracker.DataAccess
                 new SqlParameter { ParameterName = "@pstr_Remarks", Value = (company.Remarks == null ? DBNull.Value : company.Remarks )}
             };
 
-            _interviewTrackerDBContext.Database.ExecuteSqlRaw("EXECUTE USP_Company_SaveCompany @pint_Flag, @pint_Id OUTPUT, @pstr_Name, @pdte_Date, @pstr_Country, @pstr_Phone, @pstr_Description, @pstr_Remarks", parms.ToArray());
+            await _interviewTrackerDBContext.Database.ExecuteSqlRawAsync("EXECUTE USP_Company_SaveCompany @pint_Flag, @pint_Id OUTPUT, @pstr_Name, @pdte_Date, @pstr_Country, @pstr_Phone, @pstr_Description, @pstr_Remarks", parms.ToArray());
             company.Id = (int)parms[1].Value;
             return company;
         }
 
-        public int DeleteCompany(int flag, int id)
+        public async Task<int> DeleteCompany(int flag, int id)
         {
             List<SqlParameter> parms = new List<SqlParameter>
             {
@@ -66,7 +66,7 @@ namespace InterviewTracker.DataAccess
                 new SqlParameter { ParameterName = "@pint_Id", Value = id },
             };
 
-            _interviewTrackerDBContext.Database.ExecuteSqlRaw("EXECUTE USP_Company_DeleteCompany @pint_Flag, @pint_Id", parms.ToArray());
+            await _interviewTrackerDBContext.Database.ExecuteSqlRawAsync("EXECUTE USP_Company_DeleteCompany @pint_Flag, @pint_Id", parms.ToArray());
             return id;
         }
     }

@@ -22,7 +22,7 @@ namespace InterviewTracker.DataAccess
             _interviewTrackerDBContext = interviewTrackerDBContext;
         }
 
-        public List<InterviewDto> GetInterviews(int flag, int companyId) {
+        public async Task<List<InterviewDto>> GetInterviews(int flag, int companyId) {
             List<InterviewDto> list = new List<InterviewDto>();
 
             List<SqlParameter> parms = new List<SqlParameter>{
@@ -30,7 +30,7 @@ namespace InterviewTracker.DataAccess
                 new SqlParameter { ParameterName = "@pInt_CompanyId", Value=companyId},
             };
 
-            var _data = _interviewTrackerDBContext.Interviews.FromSqlRaw("EXEC USP_Interview_GetInterview @pInt_Flag, @pInt_CompanyId", parms.ToArray()).ToList();
+            var _data = await _interviewTrackerDBContext.Interviews.FromSqlRaw("EXEC USP_Interview_GetInterview @pInt_Flag, @pInt_CompanyId", parms.ToArray()).ToListAsync();
 
             if (_data != null && _data.Count() > 0)
             {

@@ -21,10 +21,10 @@ namespace InterviewTracker.BusinessLogic
             _loggerBusinessLogic = loggerBusinessLogic;
         }
 
-        public List<InterviewDto> GetInterviews(int companyId) {
+        public async Task<List<InterviewDto>> GetInterviews(int companyId) {
             try
             {
-                return _interviewRepository.GetInterviews(0, companyId);
+                return await _interviewRepository.GetInterviews(0, companyId);
             }
             catch (Exception e)
             {
