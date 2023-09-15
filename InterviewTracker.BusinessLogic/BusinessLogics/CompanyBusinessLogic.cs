@@ -16,10 +16,10 @@ namespace InterviewTracker.BusinessLogic
             _loggerBusinessLogic = loggerBusinessLogic;
         }
 
-        public List<CompanyDto> GetAllCompanies() {
+        public async Task<List<CompanyDto>> GetAllCompanies() {
             try
             {
-                return _companyRepository.GetCompanies();
+                return await _companyRepository.GetCompanies();
             }
             catch (Exception e)
             {
@@ -28,16 +28,16 @@ namespace InterviewTracker.BusinessLogic
             }
         }
 
-        public CompanyDto SaveCompany(CompanyDto company)
+        public async Task<CompanyDto> SaveCompany(CompanyDto company)
         {
             try
             {
                 if (company.Id > 0)
                 {
-                    return _companyRepository.SaveCompany(1, company);
+                    return await _companyRepository.SaveCompany(1, company);
                 }
                 else {
-                    return _companyRepository.SaveCompany(0, company);
+                    return await _companyRepository.SaveCompany(0, company);
                 }
 
             }
@@ -48,11 +48,11 @@ namespace InterviewTracker.BusinessLogic
             }
         }
 
-        public int DeleteCompany(int id)
+        public async Task<int> DeleteCompany(int id)
         {
             try
             {
-                return _companyRepository.DeleteCompany(0, id);
+                return await _companyRepository.DeleteCompany(0, id);
 
             }
             catch (Exception e)

@@ -11,7 +11,7 @@ namespace InterviewTracker.Test
     public class CompanyTest
     {
         [Fact]
-        public void GetAllCompanies_ShouldReturn200StatusWithData()
+        public async Task GetAllCompanies_ShouldReturn200StatusWithData()
         {
             //Arrange
             var companyInterviewFacade = new Mock<ICompanyInterviewFacade>();
@@ -19,7 +19,7 @@ namespace InterviewTracker.Test
             var sut = new WebApiController(companyInterviewFacade.Object); // sut means system under test
 
             //Act
-            var result = sut.GetAllCompanies();
+            var result = await sut.GetAllCompanies();
 
             //Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -30,7 +30,7 @@ namespace InterviewTracker.Test
         }
 
         [Fact]
-        public void GetAllCompanies_ShouldReturn204Status() {
+        public async Task GetAllCompanies_ShouldReturn204Status() {
 
             //Arrange
             var companyInterviewFacade = new Mock<ICompanyInterviewFacade>();
@@ -38,7 +38,7 @@ namespace InterviewTracker.Test
             var sut = new WebApiController(companyInterviewFacade.Object);
 
             //Act
-            var result = sut.GetAllCompanies();
+            var result = await sut.GetAllCompanies();
 
             //Assert
             var objectResult = Assert.IsType<NoContentResult>(result);
@@ -47,14 +47,14 @@ namespace InterviewTracker.Test
         }
 
         [Fact]
-        public void GetAllCompanies_ShouldReturn500Status() { 
+        public async Task GetAllCompanies_ShouldReturn500Status() { 
             //Arrange
             var companyInterviewFacade = new Mock<ICompanyInterviewFacade>();
             companyInterviewFacade.Setup(x => x.GetAllCompanies()).Throws(new Exception("Internal Server Error"));
             var sut = new WebApiController(companyInterviewFacade.Object);
 
             //Act
-            var result = sut.GetAllCompanies();
+            var result = await sut.GetAllCompanies();
 
             //Assert
             var objectResult = Assert.IsType<ObjectResult>(result);
@@ -62,14 +62,14 @@ namespace InterviewTracker.Test
         }
 
         [Fact]
-        public void SaveCompany_ShouldReturn200StatusWithSavedCompany() { 
+        public async Task SaveCompany_ShouldReturn200StatusWithSavedCompany() { 
             //Arrange
             var companyInterviewFacade = new Mock<ICompanyInterviewFacade>();
-            companyInterviewFacade.Setup(x => x.SaveCompany(CompanyMockData.Company)).Returns(CompanyMockData.Company);
+            companyInterviewFacade.Setup(x => x.SaveCompany(CompanyMockData.Company)).Returns(CompanyMockData.CompanyTask);
             var sut = new WebApiController(companyInterviewFacade.Object);
 
             //Act
-            var result = sut.SaveCompany(CompanyMockData.Company);
+            var result = await sut.SaveCompany(CompanyMockData.Company);
 
             //Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -78,7 +78,7 @@ namespace InterviewTracker.Test
         }
 
         [Fact]
-        public void SaveCompany_ShouldReturn500Status()
+        public async Task SaveCompany_ShouldReturn500Status()
         {
             //Arrange
             var companyInterviewFacade = new Mock<ICompanyInterviewFacade>();
@@ -86,7 +86,7 @@ namespace InterviewTracker.Test
             var sut = new WebApiController(companyInterviewFacade.Object);
 
             //Act
-            var result = sut.SaveCompany(CompanyMockData.Company);
+            var result = await sut.SaveCompany(CompanyMockData.Company);
 
             //Assert
             var objectResult = Assert.IsType<ObjectResult>(result);

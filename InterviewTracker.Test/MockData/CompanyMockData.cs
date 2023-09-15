@@ -29,8 +29,24 @@ namespace InterviewTracker.Test.MockData
             }
         }
 
-        public static List<CompanyDto> GetCompanies() { 
-            return new List<CompanyDto>() { 
+        public static Task<CompanyDto> CompanyTask
+        {
+            get
+            {
+                return Task.FromResult(new CompanyDto() {
+                    Id = -1,
+                    Name = "Paragon Software (Pvt) Ltd",
+                    Country = "Sri Lanka",
+                    Date = DateTime.Now,
+                    Description = "Description",
+                    Phone = "0774817474",
+                    Remarks = "Remarks Test"
+                });
+            }
+        }
+
+        public static Task<List<CompanyDto>> GetCompanies() { 
+            return Task.FromResult(new List<CompanyDto>() { 
                 new CompanyDto{ 
                     Id = 1,
                     Name = "Paragon Software (Pvt) Ltd",
@@ -58,12 +74,12 @@ namespace InterviewTracker.Test.MockData
                     Phone = "0774817474",
                     Remarks = "Test Remark"
                 },
-            }; 
+            }); 
         }
 
-        public static List<CompanyDto> EmptyCompanies()
+        public static Task<List<CompanyDto>> EmptyCompanies()
         {
-            return new List<CompanyDto>();
+            return Task.FromResult(new List<CompanyDto>());
         }
     }
 }

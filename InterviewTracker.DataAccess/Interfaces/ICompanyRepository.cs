@@ -9,8 +9,8 @@ namespace InterviewTracker.DataAccess.Interface
 {
     public interface ICompanyRepository
     {
-        List<CompanyDto> GetCompanies();
-        CompanyDto SaveCompany(int flag, CompanyDto company);
-        int DeleteCompany(int flag, int id);
+        Task<List<CompanyDto>> GetCompanies();
+        Task<CompanyDto> SaveCompany(int flag, CompanyDto company);
+        Task<int> DeleteCompany(int flag, int id);
     }
 }

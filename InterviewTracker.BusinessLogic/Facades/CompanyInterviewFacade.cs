@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using InterviewTracker.DataObject;
 using InterviewTracker.DataAccess.Data;
 using InterviewTracker.BusinessLogic.Interfaces;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.ComponentModel.Design;
 
 namespace InterviewTracker.BusinessLogic.Facades
 {
@@ -21,22 +23,22 @@ namespace InterviewTracker.BusinessLogic.Facades
             _interviewBusinessLogic = interviewBusinessLogic;
         }
 
-        public List<CompanyDto> GetAllCompanies()
+        public async Task<List<CompanyDto>> GetAllCompanies()
         {
             try
             {
-                return _companyBusinessLogic.GetAllCompanies();
+                return await _companyBusinessLogic.GetAllCompanies();
             } catch
             {
                 throw;
             }
         }
 
-        public CompanyDto SaveCompany(CompanyDto company)
+        public async Task<CompanyDto> SaveCompany(CompanyDto company)
         {
             try
             {
-                return _companyBusinessLogic.SaveCompany(company);
+                return await _companyBusinessLogic.SaveCompany(company);
             }
             catch
             {
@@ -44,14 +46,28 @@ namespace InterviewTracker.BusinessLogic.Facades
             }
         }
 
-        public List<InterviewDto> GetInterviews(int companyId)
+        public async Task<List<InterviewDto>> GetInterviews(int companyId)
         {
-            return _interviewBusinessLogic.GetInterviews(companyId);
+            try
+            {
+                return await _interviewBusinessLogic.GetInterviews(companyId);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public int DeleteCompany(int id)
+        public async Task<int> DeleteCompany(int id)
         {
-            return _companyBusinessLogic.DeleteCompany(id);
+            try
+            {
+                return await _companyBusinessLogic.DeleteCompany(id);
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

@@ -9,6 +9,6 @@ namespace InterviewTracker.DataAccess.Interface
 {
     public interface IInterviewRepository
     {
-        List<InterviewDto> GetInterviews(int flag, int companyId);
+        Task<List<InterviewDto>> GetInterviews(int flag, int companyId);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using InterviewTracker.BusinessLogic.Facades;
 using InterviewTracker.BusinessLogic.Interfaces;
+using InterviewTracker.DataAccess.Data;
 using InterviewTracker.DataObject;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InterviewTracker.Web.Controllers
@@ -15,11 +15,11 @@ namespace InterviewTracker.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllCompanies()
+        public async Task<IActionResult> GetAllCompanies()
         {
             try
             {
-                var data = _companyInterviewFacade.GetAllCompanies();
+                var data = await _companyInterviewFacade.GetAllCompanies();
 
                 if (data == null || data.Count == 0)
                 {
@@ -27,7 +27,6 @@ namespace InterviewTracker.Web.Controllers
                 }
 
                 return Ok(data);
-
             } catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error getting companies!");
@@ -35,10 +34,10 @@ namespace InterviewTracker.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveCompany(CompanyDto company)
+        public async Task<IActionResult> SaveCompany(CompanyDto company)
         {
             try {
-                var data = _companyInterviewFacade.SaveCompany(company);
+                var data = await _companyInterviewFacade.SaveCompany(company);
                 return Ok(data);
             } catch {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error saving company!");
@@ -46,15 +45,33 @@ namespace InterviewTracker.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetInterviews(int companyId)
+        public async Task<IActionResult> GetInterviews(int companyId)
         {
-            return Json(new { result = _companyInterviewFacade.GetInterviews(companyId) });
+            try {
+                var data = await _companyInterviewFacade.GetInterviews(companyId);
+
+                if (data == null || data.Count == 0) { 
+                    return NoContent();
+                }
+
+                return Ok(data);
+            } catch {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error getting interviews!");
+            }
         }
 
         [HttpGet]
-        public JsonResult DeleteCompany(int id)
+        public async Task<IActionResult> DeleteCompany(int id)
         {
-            return Json(new { result = _companyInterviewFacade.DeleteCompany(id) });
+            try
+            {
+                var data = await _companyInterviewFacade.DeleteCompany(id);
+                return Ok(data);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting company!");
+            }
         }
     }
 }

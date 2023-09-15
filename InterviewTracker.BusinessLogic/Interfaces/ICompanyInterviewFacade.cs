@@ -10,9 +10,9 @@ namespace InterviewTracker.BusinessLogic.Interfaces
 {
     public interface ICompanyInterviewFacade
     {
-        List<CompanyDto> GetAllCompanies();
-        CompanyDto SaveCompany(CompanyDto company);
-        List<InterviewDto> GetInterviews(int companyId);
-        int DeleteCompany(int id);
+        Task<List<CompanyDto>> GetAllCompanies();
+        Task<CompanyDto> SaveCompany(CompanyDto company);
+        Task<List<InterviewDto>> GetInterviews(int companyId);
+        Task<int> DeleteCompany(int id);
     }
 }
