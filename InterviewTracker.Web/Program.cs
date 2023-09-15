@@ -7,10 +7,16 @@ using InterviewTracker.BusinessLogic.Interface;
 using InterviewTracker.BusinessLogic.Facades;
 using InterviewTracker.BusinessLogic.Interfaces;
 using Serilog;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option => {
+    option.LoginPath = builder.Configuration["Login:Path"];
+    option.ExpireTimeSpan = TimeSpan.FromMinutes(Convert.ToDouble(builder.Configuration["Login:ExpireTimeSpan"]));
+});
 
 builder.Services.AddDbContext<InterviewTrackerDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
 
@@ -56,10 +62,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Access}/{action=Index}/{id?}");
 
 app.Run();

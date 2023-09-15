@@ -1,0 +1,51 @@
+﻿@model InterviewTracker.DataObject.LoginDto
+@{
+    ViewData["Title"] = "Login";
+}
+<div class="sidenav">
+    <div class="login-main-text">
+        <h2>Interview Tracker<br> Version 1.0</h2>
+        <p>Tracking Interviews, Unlocking Opportunities</p>
+    </div>
+</div>
+<div class="main">
+    <div class="col-md-6 col-sm-12">
+        <div class="login-form">
+            <form asp-controller="Access" asp-action="Login" method="post">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" placeholder="Email" asp-for="Email">
+                </div>
+                <div class="form-group mt-3">
+                    <label>Password</label>
+                    <input type="password" class="form-control" placeholder="Password" asp-for="Password">
+                </div>
+                <div class="form-group mt-3">
+                    <label>
+                        <input type="checkbox" asp-for="KeepLoggedIn" />
+                        Keep me logged in.
+                    </label>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-black">Login</button>
+                    <button type="submit" class="btn btn-secondary" disabled>Register</button>
+                </div>
+
+                <div class="form-group mt-1">
+                        <label class="text-danger">
+                            @if (ViewData["ValidateMessage"] != null)
+                            {
+                                @ViewData["ValidateMessage"]
+                            }
+                        </label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/js/login.js" asp-append-version="true"></script>
+
+}
