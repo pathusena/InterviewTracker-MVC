@@ -69,5 +69,17 @@ namespace InterviewTracker.BusinessLogic.Facades
                 throw;
             }
         }
+
+        public async Task<InterviewDto> SaveInterview(InterviewDto interview)
+        {
+            try
+            {
+                return await _interviewBusinessLogic.SaveInterview(interview);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

@@ -73,5 +73,19 @@ namespace InterviewTracker.Web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting company!");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveInterview(InterviewDto interview)
+        {
+            try
+            {
+                var data = await _companyInterviewFacade.SaveInterview(interview);
+                return Ok(data);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error saving interview!");
+            }
+        }
     }
 }

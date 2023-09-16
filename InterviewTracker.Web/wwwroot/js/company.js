@@ -1,4 +1,5 @@
 ﻿var companyList = [];
+var selectedCompanyId = -1;
 function getAllCompanies() {
     do_getAllCompanies();
 }
@@ -34,7 +35,12 @@ function drawCompanyTableRow(obj, index) {
                     <td>${obj.phone == null ? '' : obj.phone}</td>
                     <td>${obj.description == null ? '' : obj.description}</td>
                     <td>${obj.remarks == null ? '' : obj.remarks}</td>
-                    <td><a class="btn btn-success" onclick="editCompany(${obj.id});">Edit</a><a class="btn btn-info mx-2">View Interviews</a><a class="btn btn-danger" onclick="deleteCompany(${obj.id});">Delete</a></td>
+                    <td class="action-button-width ">
+                        <a class="btn btn-success" onclick="editCompany(${obj.id});">Edit</a>
+                        <a class="btn btn-danger" onclick="deleteCompany(${obj.id});">Delete</a>
+                        <a class="btn btn-info">View Interviews</a>
+                        <a class="btn btn-success" onclick="editInterview(${obj.id});">Add Interview</a>
+                    </td>
                 </tr>`;
     $('#tblCompanyBody').append(line);
 }
@@ -160,6 +166,80 @@ function do_deleteCompany_sucess(result) {
         alertMessage(true, 'Company successfully deleted!', true);
     } else {
         alertMessage(false, 'Company deletion unsuccessful!', true);
+    }
+}
+
+function editInterview(id) {
+    clearInterviewEditModal();
+    selectedCompanyId = id;
+    $('#divAddInterview').modal('show');
+}
+
+$('.btnInterviewClose').on('click', function () {
+    clearInterviewEditModal();
+    $('#divAddInterview').modal('hide');
+});
+
+function clearInterviewEditModal() {
+    selectedCompanyId = -1;
+    $('#hdnInterviewId').val('-1');
+    $('#txtInteviewName').val('');
+    $('#txtInterviewDate').val('');
+    $('#txtInterviewStatus').val(0);
+    $('#txtInterviewRemark').val('');
+}
+
+
+$('#btnInterviewSave').on('click', function () {
+    saveInterview();
+});
+
+function saveInterview() {
+    if (validateInterviewData()) {
+        do_saveInterview(createInterviewSaveObject());
+    }
+}
+
+function validateInterviewData() {
+    $('.error-message').addClass('d-none');
+    var result = true;
+    if (selectedCompanyId == -1) {
+        $('#interviewNameError').text('Please select a company first!');
+        $('#interviewNameError').removeClass('d-none');
+        result = false;
+    }
+    else if ($('#txtInteviewName').val().length == 0) {
+        $('#interviewNameError').text('Please enter an interview name');
+        $('#interviewNameError').removeClass('d-none');
+        result = false;
+    } else if ($('#txtInterviewDate').val().length == 0) {
+        $('#interviewDateError').removeClass('d-none');
+        result = false;
+    }
+    return result;
+}
+
+function createInterviewSaveObject() {
+    var obj = {};
+    obj.id = Number($('#hdnInterviewId').val());
+    obj.companyId = selectedCompanyId;
+    obj.name = $('#txtInteviewName').val();
+    obj.date = $('#txtInterviewDate').val();
+    obj.status = Number($('#txtInterviewStatus').val());
+    obj.remark = $('#txtInterviewRemark').val();
+
+    return obj;
+}
+
+function do_saveInterview(obj) {
+    sendRequestPost(obj, do_saveInterview_sucess, null, 'SaveInterview');
+}
+
+function do_saveInterview_sucess(result) {
+    if (result != null) {
+        clearInterviewEditModal();
+        $('#divAddInterview').modal('hide');
+        alertMessage(true, 'Interview successfully Saved!', true);
     }
 }
 

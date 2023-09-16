@@ -32,5 +32,18 @@ namespace InterviewTracker.BusinessLogic
                 throw new Exception("Unable to get interviews.");
             }
         }
+
+        public async Task<InterviewDto> SaveInterview(InterviewDto interview)
+        {
+            try
+            {
+                return await _interviewRepository.SaveInterview(0, interview);
+            }
+            catch (Exception e)
+            {
+                _loggerBusinessLogic.LogError(e.Message);
+                throw new Exception("Unable to save interview.");
+            }
+        }
     }
 }

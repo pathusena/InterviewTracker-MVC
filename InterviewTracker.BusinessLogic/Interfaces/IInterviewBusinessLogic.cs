@@ -10,5 +10,6 @@ namespace InterviewTracker.BusinessLogic.Interface
     public  interface IInterviewBusinessLogic
     {
         Task<List<InterviewDto>> GetInterviews(int companyId);
+        Task<InterviewDto> SaveInterview(InterviewDto interview);
     }
 }
