@@ -11,5 +11,6 @@ namespace InterviewTracker.BusinessLogic.Interface
     {
         Task<List<InterviewDto>> GetInterviews(int companyId);
         Task<InterviewDto> SaveInterview(InterviewDto interview);
+        Task<int> DeleteInterview(int id);
     }
 }

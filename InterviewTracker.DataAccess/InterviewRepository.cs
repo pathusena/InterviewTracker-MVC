@@ -63,5 +63,17 @@ namespace InterviewTracker.DataAccess
 
             return interview;
         }
+
+        public async Task<int> DeleteInterview(int flag, int id)
+        {
+            List<SqlParameter> parms = new List<SqlParameter>
+            {
+                new SqlParameter { ParameterName = "@pint_Flag", Value = flag },
+                new SqlParameter { ParameterName = "@pint_Id", Value = id },
+            };
+
+            await _interviewTrackerDBContext.Database.ExecuteSqlRawAsync("EXECUTE USP_Interview_DeleteInterview @pint_Flag, @pint_Id", parms.ToArray());
+            return id;
+        }
     }
 }

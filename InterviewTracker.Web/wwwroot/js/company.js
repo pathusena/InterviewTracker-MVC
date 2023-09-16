@@ -166,15 +166,13 @@ function do_deleteCompany(id) {
 }
 
 function do_deleteCompany_sucess(result) {
-    if (result.result != null) {
-        var index = companyList.findIndex(x => x.id == result.result);
+    if (result != null) {
+        var index = companyList.findIndex(x => x.id == result);
         if (index > -1) {
             companyList.splice(index, 1);
             drawCompanyTable(companyList);
         }
         alertMessage(true, 'Company successfully deleted!', true);
-    } else {
-        alertMessage(false, 'Company deletion unsuccessful!', true);
     }
 }
 
@@ -290,7 +288,7 @@ function drawInterviewTableRow(obj, index) {
                     <td>${obj.remark == null ? '' : obj.remark}</td>
                     <td class="view-interview-action-button-width">
                         <a class="btn btn-success" onclick="editInterview(${obj.companyId},${obj.id})">Edit</a>
-                        <a class="btn btn-danger">Delete</a>
+                        <a class="btn btn-danger" onclick="deleteInterview(${obj.id})">Delete</a>
                     </td>
                 </tr>`;
     $('#tblInterviewBody').append(line);
@@ -322,6 +320,24 @@ $('.btnViewInterviewClose').on('click', function () {
     $('#divViewInterview').modal('hide');
 });
 
+function deleteInterview(id) {
+    confirmationMessage('Are you sure!', 'Are you sure you want to delete this interview?', `do_deleteInterview(${id})`);
+}
+
+function do_deleteInterview(id) {
+    sendRequestGet({ id: id }, do_deleteInterview_sucess, null, 'DeleteInterview');
+}
+
+function do_deleteInterview_sucess(result) {
+    if (result != null) {
+        var index = selectedCompanyInterviewList.findIndex(x => x.id == result);
+        if (index > -1) {
+            selectedCompanyInterviewList.splice(index, 1);
+            drawInterviewTable(selectedCompanyInterviewList);
+        }
+        alertMessage(true, 'Interview successfully deleted!', true);
+    }
+}
 
 $(document).ready(function () {
     getAllCompanies();

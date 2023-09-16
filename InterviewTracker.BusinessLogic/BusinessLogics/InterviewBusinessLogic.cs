@@ -53,5 +53,19 @@ namespace InterviewTracker.BusinessLogic
                 throw new Exception("Unable to save interview.");
             }
         }
+
+        public async Task<int> DeleteInterview(int id)
+        {
+            try
+            {
+                return await _interviewRepository.DeleteInterview(0, id);
+
+            }
+            catch (Exception e)
+            {
+                _loggerBusinessLogic.LogError(e.Message);
+                throw new Exception("Unable to delete interview.");
+            }
+        }
     }
 }

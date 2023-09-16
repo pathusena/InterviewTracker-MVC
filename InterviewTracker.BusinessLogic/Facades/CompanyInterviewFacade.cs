@@ -81,5 +81,17 @@ namespace InterviewTracker.BusinessLogic.Facades
                 throw;
             }
         }
+
+        public async Task<int> DeleteInterview(int id)
+        {
+            try
+            {
+                return await _interviewBusinessLogic.DeleteInterview(id);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }
