@@ -10,9 +10,10 @@ namespace InterviewTracker.DataObject.Common
     {
         public enum InterviewStatus
         {
-            Pending = 0,
-            Passed = 1,
-            Failed = 2,
+            Upcoming = 0,
+            Pending = 1,
+            Passed = 2,
+            Failed = 3,
         }
     }
 }

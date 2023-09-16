@@ -22,6 +22,18 @@ body {
     font-size: 12px;
 }
 
+footer {
+    position: absolute;
+    bottom: 0px;
+}
+
+.action-button-width {
+    width:414px;
+}
+
+.view-interview-action-button-width {
+    width: 146px;
+}
 /***************************Login page styles start***********************************/
 .main-head {
     height: 150px;

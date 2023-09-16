@@ -10,5 +10,7 @@ namespace InterviewTracker.DataAccess.Interface
     public interface IInterviewRepository
     {
         Task<List<InterviewDto>> GetInterviews(int flag, int companyId);
+        Task<InterviewDto> SaveInterview(int flag, InterviewDto interview);
+        Task<int> DeleteInterview(int flag, int id);
     }
 }

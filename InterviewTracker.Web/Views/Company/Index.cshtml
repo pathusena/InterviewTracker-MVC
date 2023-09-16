@@ -1,4 +1,14 @@
-﻿@model InterviewTracker.DataObject.CompanyDto
+﻿@using static InterviewTracker.DataObject.Common.Enumeration;
+@model InterviewTracker.DataObject.CompanyDto
+@{
+    var interviewStatusEnum = Enum.GetValues(typeof(InterviewStatus))
+            .Cast<InterviewStatus>()
+            .Select(e => new SelectListItem
+                    {
+                        Text = e.ToString(),
+                        Value = ((int)e).ToString()
+                    });
+}
 <div class="card">
     <div class="card-body">
         <div class="card-title">
@@ -15,7 +25,7 @@
                     <td>Phone</td>
                     <td>Description</td>
                     <td>Remarks</td>
-                    <td>Actions</td>
+                    <td class="action-button-width">Actions</td>
                 </tr>
             </thead>
             <tbody id="tblCompanyBody">
@@ -30,7 +40,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Company</h5>
+                <h5 class="modal-title">Add/Edit Company</h5>
                 <button type="button" class="btn close btnEditCompanyClose" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -68,6 +78,76 @@
             <div class="modal-footer">
                 <button type="button" id="btnEditCompanySave" class="btn btn-success">Save</button>
                 <button type="button" class="btn btn-danger btnEditCompanyClose" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divAddInterview" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add/Edit Interview</h5>
+                <button type="button" class="btn close btnInterviewClose" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.TextBox("hdnInterviewId", null, new { id="hdnInterviewId", type="hidden"})
+                <div class="form-group">
+                    @Html.Label("Interview Name")
+                    @Html.TextBox("txtInteviewName", null, new { id="txtInteviewName", @class="form-control mt-2", placeholder="Interview Name"})
+                    <span class="error-message d-none" id="interviewNameError">Please enter an interview name</span>
+                </div>
+                <div class="form-group mt-3">
+                    @Html.Label("Date")
+                    @Html.TextBox("txtInterviewDate", null, new { id="txtInterviewDate", @class="form-control mt-2", placeholder="Interview Date", type="date"})
+                    <span class="error-message d-none" id="interviewDateError">Please enter the interview date</span>
+                </div>
+                <div class="form-group mt-3">
+                    @Html.Label("Status")
+                    @Html.DropDownList("txtInterviewStatus",  new SelectList(interviewStatusEnum, "Value", "Text"), new { id="txtInterviewStatus", @class="form-control mt-2", placeholder="Status"})
+                </div>
+                <div class="form-group mt-3">
+                    @Html.Label("Remark")
+                    @Html.TextArea("txtInterviewRemark", null, new { id="txtInterviewRemark", @class="form-control mt-2", placeholder="Remark"})
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnInterviewSave" class="btn btn-success">Save</button>
+                <button type="button" class="btn btn-danger btnInterviewClose" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divViewInterview" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">View Interview</h5>
+                <button type="button" class="btn close btnViewInterviewClose" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped my-2">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <td>#</td>
+                            <td>Name</td>
+                            <td>Interview Date</td>
+                            <td>Status</td>
+                            <td>Remarks</td>
+                            <td class="view-interview-action-button-width">Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody id="tblInterviewBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btnViewInterviewClose" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
