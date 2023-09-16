@@ -31,6 +31,9 @@ footer {
     width:414px;
 }
 
+.view-interview-action-button-width {
+    width: 146px;
+}
 /***************************Login page styles start***********************************/
 .main-head {
     height: 150px;

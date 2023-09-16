@@ -1,5 +1,14 @@
 ﻿var companyList = [];
 var selectedCompanyId = -1;
+var selectedCompanyInterviewList = [];
+
+var InterviewStatus = {
+    0: 'Upcoming',
+    1: 'Pending',
+    2: 'Passed',
+    3: 'Failed'
+}
+
 function getAllCompanies() {
     do_getAllCompanies();
 }
@@ -38,8 +47,8 @@ function drawCompanyTableRow(obj, index) {
                     <td class="action-button-width ">
                         <a class="btn btn-success" onclick="editCompany(${obj.id});">Edit</a>
                         <a class="btn btn-danger" onclick="deleteCompany(${obj.id});">Delete</a>
-                        <a class="btn btn-info">View Interviews</a>
-                        <a class="btn btn-success" onclick="editInterview(${obj.id});">Add Interview</a>
+                        <a class="btn btn-info" onclick="viewInterviews(${obj.id});">View Interviews</a>
+                        <a class="btn btn-success" onclick="addInterview(${obj.id});">Add Interview</a>
                     </td>
                 </tr>`;
     $('#tblCompanyBody').append(line);
@@ -169,7 +178,7 @@ function do_deleteCompany_sucess(result) {
     }
 }
 
-function editInterview(id) {
+function addInterview(id) {
     clearInterviewEditModal();
     selectedCompanyId = id;
     $('#divAddInterview').modal('show');
@@ -242,6 +251,77 @@ function do_saveInterview_sucess(result) {
         alertMessage(true, 'Interview successfully Saved!', true);
     }
 }
+
+
+function viewInterviews(id) {
+    clearViewInterviewModal();
+    getInterviews(id);
+}
+
+function clearViewInterviewModal() {
+    selectedCompanyInterviewList = [];
+}
+
+function getInterviews(companyId) {
+    sendRequestGet({ companyId: companyId }, getInterviews_sucess, null, 'GetInterviews');
+}
+
+function getInterviews_sucess(result) {
+    if (result != null) {
+        selectedCompanyInterviewList = result;
+        drawInterviewTable(selectedCompanyInterviewList);
+        $('#divViewInterview').modal('show');
+    }
+}
+
+function drawInterviewTable(list) {
+    $('#tblInterviewBody').html('');
+    list.forEach(function (interview, index) {
+        drawInterviewTableRow(interview, index);
+    });
+}
+
+function drawInterviewTableRow(obj, index) {
+    let line = `<tr id="interviewTr_${obj.id}">
+                    <td> ${index + 1}</td>
+                    <td> ${obj.name}</td>
+                    <td>${obj.date.split('T')[0]}</td>
+                    <td>${InterviewStatus[obj.status]}</td>
+                    <td>${obj.remark == null ? '' : obj.remark}</td>
+                    <td class="view-interview-action-button-width">
+                        <a class="btn btn-success" onclick="editInterview(${obj.companyId},${obj.id})">Edit</a>
+                        <a class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>`;
+    $('#tblInterviewBody').append(line);
+}
+
+function editInterview(companyId, id) {
+    clearInterviewEditModal();
+    selectedCompanyId = companyId;
+    if (selectedCompanyInterviewList.length > 0) {
+        var index = selectedCompanyInterviewList.findIndex(x => x.id == id);
+        if (index > -1) {
+            showInterviewValues(selectedCompanyInterviewList[index]);
+            $('#divViewInterview').modal('hide');
+            $('#divAddInterview').modal('show');
+        }
+    }
+}
+
+function showInterviewValues(obj) {
+    $('#hdnInterviewId').val(obj.id);
+    $('#txtInteviewName').val(obj.name);
+    $('#txtInterviewStatus').val(obj.status);
+    $('#txtInterviewDate').val(obj.date.split('T')[0]);
+    $('#txtInterviewRemark').val(obj.remark);
+}
+
+$('.btnViewInterviewClose').on('click', function () {
+    clearViewInterviewModal();
+    $('#divViewInterview').modal('hide');
+});
+
 
 $(document).ready(function () {
     getAllCompanies();

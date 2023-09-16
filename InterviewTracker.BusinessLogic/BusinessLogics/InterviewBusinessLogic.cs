@@ -1,6 +1,7 @@
 ﻿using InterviewTracker.BusinessLogic.Interface;
 using InterviewTracker.BusinessLogic.Interfaces;
 using InterviewTracker.DataAccess;
+using InterviewTracker.DataAccess.Data;
 using InterviewTracker.DataAccess.Interface;
 using InterviewTracker.DataObject;
 using System;
@@ -37,7 +38,14 @@ namespace InterviewTracker.BusinessLogic
         {
             try
             {
-                return await _interviewRepository.SaveInterview(0, interview);
+                if (interview.Id > 0)
+                {
+                    return await _interviewRepository.SaveInterview(1, interview);
+                }
+                else
+                {
+                    return await _interviewRepository.SaveInterview(0, interview);
+                }
             }
             catch (Exception e)
             {
