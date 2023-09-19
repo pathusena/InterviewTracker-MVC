@@ -19,18 +19,18 @@ docker-build:
     - docker:dind
   variables:
     CONTAINER_IMAGE: $AZURE_REGISTRY_URL/$AZURE_ACI_IMAGE_NAME:$CI_COMMIT_SHA
-    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    #DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   #before_script:
     #- docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   # All branches are tagged with $DOCKER_IMAGE_NAME (defaults to commit ref slug)
   # Default branch is also tagged with `latest`
   script:
     - docker login -u "$AZURE_REGISTRY_USERNAME" -p "$AZURE_REGISTRY_PASSWORD" $AZURE_REGISTRY_URL
-    - docker build --pull -t "$DOCKER_IMAGE_NAME" -f ./InterviewTracker.Web/Dockerfile .
-    - docker push "$DOCKER_IMAGE_NAME"
+    - docker build --pull -t "$CONTAINER_IMAGE" -f ./InterviewTracker.Web/Dockerfile .
+    - docker push "$CONTAINER_IMAGE"
     - |
       if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-        docker tag "$DOCKER_IMAGE_NAME" "$CONTAINER_IMAGE:latest"
+        docker tag "$CONTAINER_IMAGE" "$CONTAINER_IMAGE:latest"
         docker push "$CONTAINER_IMAGE:latest"
       fi
   # Run this job in a branch where a Dockerfile exists
