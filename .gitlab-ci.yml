@@ -38,7 +38,8 @@ deploy:
   image: mcr.microsoft.com/azure-cli
   stage: deploy
   before_script:
-    - az login --service-principal -u "$AZURE_CLIENT_ID" -p "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID" --subscription "0f9ffdeb-40ee-42db-8c91-28d511ec579a"
+    - az login --service-principal -u "$AZURE_CLIENT_ID" -p "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
+    - az account set --subscription "0f9ffdeb-40ee-42db-8c91-28d511ec579a"
     - ACI_PUBLIC_IP=$(az container show --resource-group "$AZURE_ACI_RESOURCE_GROUP" --name "$AZURE_ACI_NAME" --query "ipAddress.ip" --output tsv)
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
