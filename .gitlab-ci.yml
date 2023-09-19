@@ -11,25 +11,31 @@
 # for the default branch and all other (MR) branches.
 
 docker-build:
-  # Use the official docker image.
   image: docker:latest
   stage: build
   services:
     - docker:dind
   variables:
-    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    DOCKER_IMAGE_NAME: $AZURE_REGISTRY_URL/interviewtrackerlive:$CI_COMMIT_REF_SLUG
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  # All branches are tagged with $DOCKER_IMAGE_NAME (defaults to commit ref slug)
-  # Default branch is also tagged with `latest`
+    # Log in to your Azure Container Registry (ACR) using your ACR credentials
+    - echo "$AZURE_REGISTRY_PASSWORD" | docker login -u "$AZURE_REGISTRY_USERNAME" --password-stdin $AZURE_REGISTRY_URL
   script:
     - docker build --pull -t "$DOCKER_IMAGE_NAME" -f ./InterviewTracker.Web/Dockerfile .
     - docker push "$DOCKER_IMAGE_NAME"
-    - |
-      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-        docker tag "$DOCKER_IMAGE_NAME" "$CI_REGISTRY_IMAGE:latest"
-        docker push "$CI_REGISTRY_IMAGE:latest"
-      fi
-  # Run this job in a branch where a Dockerfile exists
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  script:
+    # Log in to Azure using the Azure CLI (make sure you are already authenticated)
+    - az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+    # Update the existing ACI with the new image from ACR
+    - az container update \
+        --resource-group $AZURE_ACI_RESOURCE_GROUP \
+        --name $AZURE_ACI_NAME \
+        --image "$DOCKER_IMAGE_NAME" \
+        --restart-policy Never
   only:
     - master
