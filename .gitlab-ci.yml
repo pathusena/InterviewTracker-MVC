@@ -35,16 +35,15 @@ docker-build:
     - master
 
 deploy:
+  image: mcr.microsoft.com/azure-cli
   stage: deploy
-  script:
-    - echo "$CI_REGISTRY_PASSWORD" | /usr/bin/docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+  before_script:
     - az login --service-principal -u "$AZURE_CLIENT_ID" -p "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
     - ACI_PUBLIC_IP=$(az container show --resource-group "$AZURE_ACI_RESOURCE_GROUP" --name "$AZURE_ACI_NAME" --query "ipAddress.ip" --output tsv)
+  script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $ACI_PUBLIC_IP/<DOCKER_IMAGE_NAME>:<TAG>
     - docker push $ACI_PUBLIC_IP/<DOCKER_IMAGE_NAME>:<TAG>
-  services:
-    - docker:dind
   only:
     - master
