@@ -13,23 +13,28 @@
 docker-build:
   # Use the official docker image.
   image: docker:latest
+
   stage: build
   services:
     - docker:dind
   variables:
-    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    CONTAINER_IMAGE: $AZURE_REGISTRY_URL/$AZURE_ACI_IMAGE_NAME:$CI_COMMIT_SHA
+    #DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  #before_script:
+    #- docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   # All branches are tagged with $DOCKER_IMAGE_NAME (defaults to commit ref slug)
   # Default branch is also tagged with `latest`
   script:
-    - docker build --pull -t "$DOCKER_IMAGE_NAME" -f ./InterviewTracker.Web/Dockerfile .
-    - docker push "$DOCKER_IMAGE_NAME"
-    - |
-      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-        docker tag "$DOCKER_IMAGE_NAME" "$CI_REGISTRY_IMAGE:latest"
-        docker push "$CI_REGISTRY_IMAGE:latest"
-      fi
+    - docker login -u "$AZURE_REGISTRY_USERNAME" -p "$AZURE_REGISTRY_PASSWORD" $AZURE_REGISTRY_URL
+    - docker build -t $CONTAINER_IMAGE .
+    - docker push $CONTAINER_IMAGE
+    #- docker build --pull -t "$DOCKER_IMAGE_NAME" -f ./InterviewTracker.Web/Dockerfile .
+    #- docker push "$DOCKER_IMAGE_NAME"
+    #- |
+    #  if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+    #    docker tag "$DOCKER_IMAGE_NAME" "$CI_REGISTRY_IMAGE:latest"
+    #    docker push "$CI_REGISTRY_IMAGE:latest"
+    #  fi
   # Run this job in a branch where a Dockerfile exists
   only:
     - master
@@ -37,14 +42,12 @@ docker-build:
 deploy:
   image: mcr.microsoft.com/azure-cli
   stage: deploy
-  before_script:
-    - az login --service-principal -u "$AZURE_CLIENT_ID" -p "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
-    - az account set --subscription "0f9ffdeb-40ee-42db-8c91-28d511ec579a"
-    - ACI_PUBLIC_IP=$(az container show --resource-group "$AZURE_ACI_RESOURCE_GROUP" --name "$AZURE_ACI_NAME" --query "ipAddress.ip" --output tsv)
   script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $ACI_PUBLIC_IP/<DOCKER_IMAGE_NAME>:<TAG>
-    - docker push $ACI_PUBLIC_IP/<DOCKER_IMAGE_NAME>:<TAG>
+    - az login --service-principal -u "$AZURE_CLIENT_ID" -p "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
+    - ACI_PUBLIC_IP=$(az container show --resource-group "$AZURE_ACI_RESOURCE_GROUP" --name "$AZURE_ACI_NAME" --query "ipAddress.ip" --output tsv)
+    - az container create --resource-group $AZURE_ACI_RESOURCE_GROUP --name $AZURE_ACI_NAME \
+      --image $AZURE_REGISTRY_URL/$AZURE_ACI_IMAGE_NAME:latest \
+      --registry-username $AZURE_REGISTRY_USERNAME --registry-password $AZURE_REGISTRY_PASSWORD \
+      --dns-name-label $AZURE_ACI_NAME --ports 80
   only:
     - master
