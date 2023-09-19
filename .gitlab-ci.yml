@@ -28,6 +28,7 @@ docker-build:
 
 deploy:
   stage: deploy
+  image: mcr.microsoft.com/azure-cli
   script:
     # Log in to Azure using the Azure CLI (make sure you are already authenticated)
     - az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
