@@ -32,6 +32,6 @@ docker-build:
       fi
   # Run this job in a branch where a Dockerfile exists
   rules:
-    - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_BRANCH == 'main'
       exists:
         - Dockerfile
