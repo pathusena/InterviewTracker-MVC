@@ -23,6 +23,11 @@ docker-build:
   # All branches are tagged with $DOCKER_IMAGE_NAME (defaults to commit ref slug)
   # Default branch is also tagged with `latest`
   script:
+    - apk add --no-cache python3-dev
+    - apk add --no-cache py3-pip
+    - pip3 install --upgrade pip
+    - pip3 install azure-cli
+    - az --version
     - docker build --pull -t "$DOCKER_IMAGE_NAME" -f ./InterviewTracker.Web/Dockerfile .
     - docker push "$DOCKER_IMAGE_NAME"
     - |
