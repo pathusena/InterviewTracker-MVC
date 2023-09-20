@@ -32,7 +32,7 @@ deploy:
   script:
     # Log in to Azure using the Azure CLI (make sure you are already authenticated)
     - az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
-    - az containerapp create \
+    - az container create \
       --name $AZURE_ACI_NAME \
       --resource-group $AZURE_ACI_RESOURCE_GROUP \
       --image $DOCKER_IMAGE_NAME \
