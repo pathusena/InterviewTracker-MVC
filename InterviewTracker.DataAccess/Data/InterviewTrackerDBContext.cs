@@ -23,6 +23,7 @@ namespace InterviewTracker.DataAccess.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
+                //optionsBuilder.UseSqlServer("connection string here migrations only");
             }
         }
 
@@ -32,24 +33,34 @@ namespace InterviewTracker.DataAccess.Data
             {
                 entity.ToTable("Company");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.Country).HasMaxLength(20);
 
                 entity.Property(e => e.Date)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.Description).HasMaxLength(100);
+                entity.Property(e => e.Description)
+                    .HasMaxLength(100)
+                    .HasDefaultValueSql("('')");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
 
-                entity.Property(e => e.Phone).HasMaxLength(20);
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(20)
+                    .HasDefaultValueSql("('')");
 
-                entity.Property(e => e.Remarks).HasMaxLength(100);
+                entity.Property(e => e.Remarks)
+                    .HasMaxLength(100)
+                    .HasDefaultValueSql("('')");
             });
 
             modelBuilder.Entity<Interview>(entity =>
             {
                 entity.ToTable("Interview");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
@@ -69,6 +80,8 @@ namespace InterviewTracker.DataAccess.Data
             });
 
             modelBuilder.HasSequence("Company_Id_Sequence").StartsAt(2);
+
+            modelBuilder.HasSequence("Interview_Id_Sequence");
 
             OnModelCreatingPartial(modelBuilder);
         }
