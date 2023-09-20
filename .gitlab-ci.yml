@@ -9,14 +9,14 @@
 #
 # This template uses one generic job with conditional builds
 # for the default branch and all other (MR) branches.
+variables:
+    DOCKER_IMAGE_NAME: $AZURE_REGISTRY_URL/interviewtrackerlive:$CI_COMMIT_REF_SLUG
 
 docker-build:
   image: docker:latest
   stage: build
   services:
     - docker:dind
-  variables:
-    DOCKER_IMAGE_NAME: $AZURE_REGISTRY_URL/interviewtrackerlive:$CI_COMMIT_REF_SLUG
   before_script:
     # Log in to your Azure Container Registry (ACR) using your ACR credentials
     - echo "$AZURE_REGISTRY_PASSWORD" | docker login -u "$AZURE_REGISTRY_USERNAME" --password-stdin $AZURE_REGISTRY_URL
@@ -32,7 +32,12 @@ deploy:
   script:
     # Log in to Azure using the Azure CLI (make sure you are already authenticated)
     - az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
-    # Update the existing ACI with the new image from ACR
-    - az container create --resource-group $AZURE_ACI_RESOURCE_GROUP --name $AZURE_ACI_NAME --image "$DOCKER_IMAGE_NAME" --restart-policy Never
+    - az containerapp create \
+      --name $AZURE_ACI_NAME \
+      --resource-group $AZURE_ACI_RESOURCE_GROUP \
+      --image $DOCKER_IMAGE_NAME \
+      --registry-server $AZURE_REGISTRY_URL \
+      --registry-username $AZURE_REGISTRY_USERNAME \
+      --registry-password $AZURE_REGISTRY_PASSWORD
   only:
     - master
