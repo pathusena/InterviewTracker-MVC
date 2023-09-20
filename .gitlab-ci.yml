@@ -33,7 +33,7 @@ deploy:
     # Log in to Azure using the Azure CLI (make sure you are already authenticated)
     - az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
     # Update the existing ACI with the new image from ACR
-    - az container update \
+    - az containerapp update \
         --resource-group $AZURE_ACI_RESOURCE_GROUP \
         --name $AZURE_ACI_NAME \
         --image "$DOCKER_IMAGE_NAME" \
