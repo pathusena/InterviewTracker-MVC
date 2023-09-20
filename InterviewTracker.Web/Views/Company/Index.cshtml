@@ -1,6 +1,7 @@
 ﻿@using static InterviewTracker.DataObject.Common.Enumeration;
 @model InterviewTracker.DataObject.CompanyDto
 @{
+    ViewData["Title"] = "Company";
     var interviewStatusEnum = Enum.GetValues(typeof(InterviewStatus))
             .Cast<InterviewStatus>()
             .Select(e => new SelectListItem
@@ -18,14 +19,14 @@
         <table class="table table-bordered table-striped my-2">
             <thead class="bg-dark text-white">
                 <tr>
-                    <td>#</td>
-                    <td>Name</td>
-                    <td>Country</td>
-                    <td>Apply Date</td>
-                    <td>Phone</td>
-                    <td>Description</td>
-                    <td>Remarks</td>
-                    <td class="action-button-width">Actions</td>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>Apply Date</th>
+                    <th>Phone</th>
+                    <th>Description</th>
+                    <th>Remarks</th>
+                    <th class="action-button-width">Actions</th>
                 </tr>
             </thead>
             <tbody id="tblCompanyBody">
@@ -48,30 +49,30 @@
             <div class="modal-body">
                 @Html.TextBox("hdnId", null, new { id="hdnId", type="hidden"})
                 <div class="form-group">
-                    @Html.Label("Name")
+                    <lable for="txtName">Name</lable>
                     @Html.TextBox("txtName", null, new { id="txtName", @class="form-control mt-2", placeholder="Company Name"})
                     <span class="error-message d-none" id="nameError">Please enter the company name</span>
                 </div>
                 <div class="form-group mt-3">
-                    @Html.Label("Country")
+                    <lable for="txtCountry">Country</lable>
                     @Html.TextBox("txtCountry", null, new { id="txtCountry", @class="form-control mt-2", placeholder="Country"})
                     <span class="error-message d-none" id="countryError">Please enter the country of the company</span>
                 </div>
                 <div class="form-group mt-3">
-                    @Html.Label("Apply Date")
+                    <lable for="txtDate">Apply Date</lable>
                     @Html.TextBox("txtDate", null, new { id="txtDate", @class="form-control mt-2", placeholder="Country", type="date"})
                     <span class="error-message d-none" id="dateError">Please enter job applying date</span>
                 </div>
                 <div class="form-group mt-3">
-                    @Html.Label("Phone")
+                    <lable for="txtPhone">Phone</lable>
                     @Html.TextBox("txtPhone", null, new { id="txtPhone", @class="form-control mt-2", placeholder="Phone"})
                 </div>
                 <div class="form-group mt-3">
-                    @Html.Label("Description")
+                    <lable for="txtDescription">Description</lable>
                     @Html.TextArea("txtDescription", null, new { id="txtDescription", @class="form-control mt-2", placeholder="Description"})
                 </div>
                 <div class="form-group mt-3">
-                    @Html.Label("Remark")
+                    <lable for="txtRemark">Remark</lable>
                     @Html.TextArea("txtRemark", null, new { id="txtRemark", @class="form-control mt-2", placeholder="Remark"})
                 </div>
             </div>
@@ -95,21 +96,21 @@
             <div class="modal-body">
                 @Html.TextBox("hdnInterviewId", null, new { id="hdnInterviewId", type="hidden"})
                 <div class="form-group">
-                    @Html.Label("Interview Name")
+                    <lable for="txtInteviewName">Interview Name</lable>
                     @Html.TextBox("txtInteviewName", null, new { id="txtInteviewName", @class="form-control mt-2", placeholder="Interview Name"})
                     <span class="error-message d-none" id="interviewNameError">Please enter an interview name</span>
                 </div>
                 <div class="form-group mt-3">
-                    @Html.Label("Date")
+                    <lable for="txtInterviewDate">Date</lable>
                     @Html.TextBox("txtInterviewDate", null, new { id="txtInterviewDate", @class="form-control mt-2", placeholder="Interview Date", type="date"})
                     <span class="error-message d-none" id="interviewDateError">Please enter the interview date</span>
                 </div>
                 <div class="form-group mt-3">
-                    @Html.Label("Status")
+                    <lable for="txtInterviewStatus">Status</lable>
                     @Html.DropDownList("txtInterviewStatus",  new SelectList(interviewStatusEnum, "Value", "Text"), new { id="txtInterviewStatus", @class="form-control mt-2", placeholder="Status"})
                 </div>
                 <div class="form-group mt-3">
-                    @Html.Label("Remark")
+                    <lable for="txtInterviewRemark">Remark</lable>
                     @Html.TextArea("txtInterviewRemark", null, new { id="txtInterviewRemark", @class="form-control mt-2", placeholder="Remark"})
                 </div>
             </div>

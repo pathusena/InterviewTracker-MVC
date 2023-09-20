@@ -45,10 +45,10 @@ function drawCompanyTableRow(obj, index) {
                     <td>${obj.description == null ? '' : obj.description}</td>
                     <td>${obj.remarks == null ? '' : obj.remarks}</td>
                     <td class="action-button-width ">
-                        <a class="btn btn-success" onclick="editCompany(${obj.id});">Edit</a>
-                        <a class="btn btn-danger" onclick="deleteCompany(${obj.id});">Delete</a>
-                        <a class="btn btn-info" onclick="viewInterviews(${obj.id});">View Interviews</a>
-                        <a class="btn btn-success" onclick="addInterview(${obj.id});">Add Interview</a>
+                        <button class="btn btn-success" onclick="editCompany(${obj.id});">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteCompany(${obj.id});">Delete</button>
+                        <button class="btn btn-info" onclick="viewInterviews(${obj.id});">View Interviews</button>
+                        <button class="btn btn-success" onclick="addInterview(${obj.id});">Add Interview</button>
                     </td>
                 </tr>`;
     $('#tblCompanyBody').append(line);
