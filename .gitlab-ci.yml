@@ -33,7 +33,7 @@ deploy:
     # Log in to Azure using the Azure CLI (make sure you are already authenticated)
     - az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
     #- az container delete --name $AZURE_ACI_NAME --resource-group $AZURE_ACI_RESOURCE_GROUP --yes
-    - az container create -g $AZURE_ACI_RESOURCE_GROUP --name $AZURE_ACI_NAME --image $DOCKER_IMAGE_NAME --registry-username $AZURE_REGISTRY_USERNAME --registry-password $AZURE_REGISTRY_PASSWORD --ports 80
+    - az container create -g $AZURE_ACI_RESOURCE_GROUP --name $AZURE_ACI_NAME --image $DOCKER_IMAGE_NAME --registry-username $AZURE_REGISTRY_USERNAME --registry-password $AZURE_REGISTRY_PASSWORD --ports 80 --dns-name-label interview-tracker-live
 
   only:
     - master
