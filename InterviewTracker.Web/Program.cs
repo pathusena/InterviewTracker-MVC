@@ -21,13 +21,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     option.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 });
 
-builder.Services.AddResponseCompression(options =>
-{
-    options.EnableForHttps = true; // Enable compression for HTTPS requests
-    options.Providers.Add<GzipCompressionProvider>(); // Use Gzip compression
-});
+//builder.Services.AddResponseCompression(options =>
+//{
+//    options.EnableForHttps = true; // Enable compression for HTTPS requests
+//    options.Providers.Add<GzipCompressionProvider>(); // Use Gzip compression
+//});
 
-builder.Services.AddDbContext<InterviewTrackerDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
+builder.Services.AddDbContext<InterviewTrackerDBContext>(options => options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["connectionString"], b => b.MigrationsAssembly("InterviewTracker.Web")));
 
 // Register the services/business logics
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -68,7 +68,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseResponseCompression();
+//app.UseResponseCompression();
 
 app.UseRouting();
 
